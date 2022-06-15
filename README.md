@@ -75,8 +75,78 @@
         - 숫자형(Number)
         - 문자열(String)
         - 튜플(Tuple)
-### 3. DB Field에서 사용되는 Key 종류와 특징
-   -  
+
+   ```python
+   immutable = "String is immutable!!"
+   mutable = ['list is mutable!!']
+
+   string = immutable
+   string += ' immutable string!'
+
+   list_ = mutable
+   list_.append('mutable list!!')
+
+   print(immutable)
+   print(mutable)
+   print(string)
+   print(list_)
+   
+   >>> String is immutable!!
+      ['list is mutable!!', 'mutable list!!']
+      String is immutable!! immutable string!
+      ['list is mutable!!', 'mutable list!!']
+   ```
+### 3. DB Field에서 사용되는 Key 종류와 특징 ([django 공홈](https://docs.djangoproject.com/en/3.2/ref/models/fields/#primary-key))
+   - key가 되는 속성들은 서로 달라 table마다 구분되게 해줘야 함
+   -  `Primary Key(pk)`
+      - 후보키 중 `대표가 되는 오직 하나의 후보키`로, 테이블을 유일하게 식별하게 하는 키
+      - django에서 모델 생성 시 속성값으로 `primary_key=True`를 부여하면 해당 컬럼은 pk가 됨 
+      - 만약 따로 pk를 지정해주지 않는다면 django에서 자동으로 `ìd` 값을 pk로 부여함
+      - `null=False`와 `unique=True`를 의미
+   -  `Foreign Key(fk)`
+      - `다른 테이블의 pk`를 참조하는 속성
+        - `ForeignKey(OneToManyField)`
+           - 쉽게 생각하자면 nike의 옷은 nike라는 하나의 브랜드에서 만들고, nike에서는 여러 종류의 옷을 생산
+           ```python
+           from django.db import models
+
+           class Nike(models.Model):
+              ...
+             pass
+
+           class NikeClothes(models.Model):
+              brand = models.ForeignKey(Nike, on_delete=models.CASCADE)
+               ...
+           ```
+           - jango model의 ForeignKey의 on_delete 종류
+             - `CASCADE` : ForeignKeyField를 포함하는 모델 인스턴스(row)도 같이 삭제
+             - `PROTECT` : 해당 요소가 같이 삭제되지 않도록 ProtectedError를 발생
+             - `SET_NULL` : ForeignKeyField 값을 NULL로 바꿈 (null=True일 때만 사용)
+             - `SET_DEFAULT` : ForeignKeyField 값을 default 값으로 변경 (default 값이 있을 때만 사용)
+             - `SET(함수)` : ForeignKeyField 값을 SET에 설정된 함수 등에 의해 설정
+             - `DO_NOTHING` : 아무런 행동을 취하지 않음 (참조 무결성을 해칠 수 있음)
+        - `ManyToManyField`
+           - 피자와 토핑의 관계를 생각하면 됨
+           ```python
+           from django.db import models
+
+           class Topping(models.Model):
+              name = models.CharField(max_length=50)
+
+           class Pizza(models.Model):
+              name = models.CharField(max_length=50)
+              toppings = models.ManyToManyField(Topping, related_name='pizzas')
+    
+           # 자기 자신과의 다대다 관계도 가능
+           class Person(models.Model):
+              friends = models.ManyToManyField("self")
+           ```
+        - `OneToOneField`
+           - `unique=True`를 준 ForeignKey와 비슷하지만, 정참조 또는 역참조에서 `하나의 모델`만을 리턴
+   -  `Unique Key(uk)`
+      -  선택된 필드의 값을 테이블 내에서 `유일한 값`을 가지는 필드로 만듦
+      -  Field의 속성을 `unique=True`로 설정하면 됨
+      -  보통 타임스탬프의 값이 uk가 될 수 있음
 ### 4.  QuerySet과 object의 차이
    - `QuerySet`
       - 데이터베이스의 `row`에 해당하며, 데이터베이스에서 전달받은 `객체들의 list`
@@ -151,4 +221,4 @@
             return self.title
       ```
       - 여기서 만든 객체가 바로 위의 `QuerySet`의 쿼리 결과로 불러와짐
-      - 해당 객체를 가지고 할 수 있는 행위들을 method로 
+      - 해당 객체를 가지고 할 수 있는 행위들을 method로 만들면 됨
