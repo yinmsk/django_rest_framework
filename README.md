@@ -153,7 +153,7 @@
       -  선택된 필드의 값을 테이블 내에서 `유일한 값`을 가지는 필드로 만듦
       -  Field의 속성을 `unique=True`로 설정하면 됨
       -  보통 타임스탬프의 값이 uk가 될 수 있음
-      -  [유니크 참조]([https://whatisthenext.tistory.com/118](https://velog.io/@kmnkit/Django-%EB%AA%A8%EB%8D%B8%EC%9D%98-Unique-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%A7%8C%EB%93%A4%EA%B8%B0))
+      -  [유니크 참조](https://url.kr/zcg6em)
 ### 4.  QuerySet과 object의 차이
    - `QuerySet`
       - 데이터베이스의 `row`에 해당하며, 데이터베이스에서 전달받은 `객체들의 list`
