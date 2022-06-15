@@ -2,10 +2,11 @@
 ***
 ## 개념 정리
 ### 1. args, kwargs
-   - `args` : argument의 줄임말이며, `*args`로 사용
-              args에는 `어떠한 단어가 들어가도 무방`하지만, 들어가는 위치는 준수해야 함
-              복수의 인자를 함수로 받고자 할 때 사용
-              args의 타입은 `tuple`
+   - `args`
+     - argument의 줄임말이며, `*args`로 사용
+     - args에는 `어떠한 단어가 들어가도 무방`하지만, 들어가는 위치는 준수해야 함
+     - 복수의 인자를 함수로 받고자 할 때 사용
+     - args의 타입은 `tuple`
       ```python
       def show_your_name(*names):
         for name in names:
@@ -21,9 +22,10 @@
           2 번째 이름 : jake
           <class 'tuple'>
       ```
-   - `kwargs` : keyword arguments의 줄임말이며, `**kwargs`로 사용
-                `keyword = 특정값`의 형태로 함수 안에 작성
-                kwargs는 `dictionary`의 형태로 전달됨
+   - `kwargs`
+      - keyword arguments의 줄임말이며, `**kwargs`로 사용
+      - `keyword = 특정값`의 형태로 함수 안에 작성
+      - kwargs는 `dictionary`의 형태로 전달됨
                 
      ```python
      def soccer_player(**name):
@@ -63,19 +65,22 @@
      ```
 ### 2. mutable과 immutable의 특성
    - 변수가 함수의 매개변수로 전달될 때 `원래 입력 변수값이 변경되는지 안되는지 결정`하는 중요한 속성
-   - `mutable` : 문자의 뜻 그대로 `값이 변하는` 속성. 주소값을 할당
-      - 리스트(List)
-      - 딕셔너리(Dictionary)
-   - `immutable` : 문자의 뜻 그대로 `값이 변하지 않는` 속성. 값을 할당
-                   만약 값이 변하게 하고 싶다면 `deepcopy()`나 리스트의 경우 `list[:]` 사용
-      - 숫자형(Number)
-      - 문자열(String)
-      - 튜플(Tuple)
+   - `mutable`
+      - 문자의 뜻 그대로 `값이 변하는` 속성. 주소값을 할당
+        - 리스트(List)
+        - 딕셔너리(Dictionary)
+   - `immutable`
+      - 문자의 뜻 그대로 `값이 변하지 않는` 속성. 값을 할당
+      - 만약 값이 변하게 하고 싶다면 `deepcopy()`나 리스트의 경우 `list[:]` 사용
+        - 숫자형(Number)
+        - 문자열(String)
+        - 튜플(Tuple)
 ### 3. DB Field에서 사용되는 Key 종류와 특징
    -  
 ### 4.  QuerySet과 object의 차이
-   - `QuerySet` : 데이터베이스의 `row`에 해당하며, 데이터베이스에서 전달받은 `객체들의 list`
-                  `Dictionary`의 형태로 전달되므로 각각의 경우에 따라 접근하는 방법이 상이
+   - `QuerySet`
+      - 데이터베이스의 `row`에 해당하며, 데이터베이스에서 전달받은 `객체들의 list`
+      - `Dictionary`의 형태로 전달되므로 각각의 경우에 따라 접근하는 방법이 상이
       1) <클래스이름>.objects.values()
         - 아래와 같이 `django shell`에서 `.values`를 사용해 딕셔너리의 키와 밸류 구조를 확인할 수 있음
           - QuerySet은 `리스트 안에 딕셔너리`가 있는 형태 
@@ -123,3 +128,27 @@
           <UserModel: gggggggg>, <UserModel: hhhhhhhh>, <UserModel: mmmmmmmm>, <UserModel: nnnnnnnn>, <UserModel: zzzzzzzz>, <UserModel: jjjjjjjj>,
           <UserModel: glglglgl>, <UserModel: pppppppp>]>
         ```
+   - `object`
+      - 속성과 행동을 모아놓은 것
+        - 속성 : 객체 속성(properties)
+        - 행동 : 메서드(method)  
+      - 우리가 models.py에 만드는 class를 생각하면 됨!
+        - 우리가 `Movie` 모델을 생성할 때 해당 모델이 가져야 할 속성을 다음과 같이 작성 
+        - 영화에 대한 제목, 이미지, 평점, 줄거리, 장르 등의 속성을 해당 모델에 생성
+      ```python
+      class Movie(models.Model):
+         class Meta:
+            db_table = "movie"
+
+         movieId = models.CharField(max_length=50)
+         title = models.CharField(max_length=256, default='')
+         image = models.URLField(max_length=256)
+         score = models.DecimalField(max_digits=2, decimal_places=1)
+         desc = models.TextField()
+         tag = models.ManyToManyField(Tag, related_name='movies')
+
+         def __str__(self):
+            return self.title
+      ```
+      - 여기서 만든 객체가 바로 위의 `QuerySet`의 쿼리 결과로 불러와짐
+      - 해당 객체를 가지고 할 수 있는 행위들을 method로 
