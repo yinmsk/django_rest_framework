@@ -44,24 +44,29 @@
      ```
    - args와 kwargs 사용
      ```python
-     def show_your_name(*names, **age):
-        for name in names:
-           for key, value in age.items():
-              if len(names) > 1:
-                print(f'저의 이름은 {name}이며, 제 나이는 {value}입니다.')
-              else:
-                print()
-                print(f'사실 저 {name}인데,,,, 저 {value}살입니다.')
-        return True
+      def show_your_name(hi, *names, **age):
+         if len(names) > 1:
+            for name in names:
+               print(hi, end=' ')
+               print(f'저의 이름은 {name}이며, ', end='')
+               for key, value in age.items():
+                  if int(key[-1]) == (names.index(name)+1):
+                     print(f'제 나이는 {value}입니다.')
+         else:    
+            for name in names:
+               for key, value in age.items():
+                 print(hi, end=' ')
+                 print(f'사실 저 {name}인데,,,, 저 {value}살입니다.')
+         return True
 
-     show_your_name('steve', 'malone', 'jake', age=20)
-     show_your_name('malone', age=21)
+      show_your_name('안녕하세요.', 'steve', 'malone', 'jake', age1=20, age2=30, age3=25)
+      show_your_name('죄송해요.', 'malone', age=21)
      
-     >>> 저의 이름은 steve이며, 제 나이는 20입니다.
-         저의 이름은 malone이며, 제 나이는 20입니다.
-         저의 이름은 jake이며, 제 나이는 20입니다.
+     >>> 안녕하세요. 저의 이름은 steve이며, 제 나이는 20입니다.
+         안녕하세요. 저의 이름은 malone이며, 제 나이는 30입니다.
+         안녕하세요. 저의 이름은 jake이며, 제 나이는 25입니다.
 
-         사실 저 malone인데,,,, 저 21살입니다.
+         죄송해요. 사실 저 malone인데,,,, 저 21살입니다.
      ```
 ### 2. mutable과 immutable의 특성
    - 변수가 함수의 매개변수로 전달될 때 `원래 입력 변수값이 변경되는지 안되는지 결정`하는 중요한 속성
