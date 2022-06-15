@@ -145,11 +145,15 @@
               friends = models.ManyToManyField("self")
            ```
         - `OneToOneField`
-           - `unique=True`를 준 ForeignKey와 비슷하지만, 정참조 또는 역참조에서 `하나의 모델`만을 리턴
+           - `unique=True`를 준 ForeignKey와 비슷하지만, 정참조 또는 역참조에서 `하나의 모델`만을 리턴(ForeignKey는 역참조 시 QuerySet 반환)
+           - `OneToOneField`의 경우, 역참조 시 `_set`을 해줄 필요가 없음 (어짜피 하나의 값만 나오기 때문)
+           - [일대일 참조](https://whatisthenext.tistory.com/118)
+           - 한 명의 유저가 하나의 프로필만을 가져야 되는 경우가 이에 해당
    -  `Unique Key(uk)`
       -  선택된 필드의 값을 테이블 내에서 `유일한 값`을 가지는 필드로 만듦
       -  Field의 속성을 `unique=True`로 설정하면 됨
       -  보통 타임스탬프의 값이 uk가 될 수 있음
+      -  [유니크 참조]([https://whatisthenext.tistory.com/118](https://velog.io/@kmnkit/Django-%EB%AA%A8%EB%8D%B8%EC%9D%98-Unique-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%A7%8C%EB%93%A4%EA%B8%B0))
 ### 4.  QuerySet과 object의 차이
    - `QuerySet`
       - 데이터베이스의 `row`에 해당하며, 데이터베이스에서 전달받은 `객체들의 list`
