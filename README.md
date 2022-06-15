@@ -69,12 +69,15 @@
       - 문자의 뜻 그대로 `값이 변하는` 속성. 주소값을 할당
         - 리스트(List)
         - 딕셔너리(Dictionary)
+        - 집합(Set)
    - `immutable`
       - 문자의 뜻 그대로 `값이 변하지 않는` 속성. 값을 할당
       - 만약 값이 변하게 하고 싶다면 `deepcopy()`나 리스트의 경우 `list[:]` 사용
         - 숫자형(Number)
+        - 실수형(Float)
         - 문자열(String)
         - 튜플(Tuple)
+        - 불리언(Bool)
 
    ```python
    immutable = "String is immutable!!"
